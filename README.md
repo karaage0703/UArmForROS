@@ -1,5 +1,101 @@
 # UArmForROS
 This is the uarm ROS package designed by Joey Song ( joey@ufactory.cc / astainsong@gmail.com)
+
+## Attention
+This repository is forked from https://github.com/uArm-Developer/UArmForROS.
+I modify `uarm_core.py` and `model.urdf`. Because I can't move uArm by using original repository.
+My setup memo is below.
+
+## uAarm Setup
+### Install pyuarm
+Execute following commands:
+```sh
+$ sudo apt-get install python-pip
+$ sudo pip install pyuarm
+```
+
+### uArm Firmware update
+Power on uArm and connect uArm to PC via USB cable.
+Then execute following commands:
+```sh
+$ sudo chmod 666 /dev/ttyUSB0
+$ python -m pyuarm.tools.firmware_helper
+```
+
+### uARM Calibration
+Use following repository
+https://github.com/uArm-Developer/UArmCalibrationTool
+
+Power on uArm and connect uArm to PC via USB cable.
+Then execute following commands:
+```sh
+$ git clone https://github.com/uArm-Developer/UArmCalibrationTool
+$ sudo chmod 666 /dev/ttyUSB0
+$ cd UArmCalibrationTool
+$ python main.py
+```
+
+Launch `main.py` and click `Start` button. Auto calibration will be started. 
+
+### Test pyuarm
+Execute command:
+```sh
+$ sudo chmod 666 /dev/ttyUSB0
+$ python
+```
+
+Execute following commands:
+```python
+>>> import pyuarm
+>>> uarm = pyuarm.uArm()
+Initialize uArm, port is /dev/ttyUSB0...
+Firmware Version: 1.7.2
+>>> uarm.move_to(12, -12, 12)
+```
+
+uArm is moved.
+
+### Test uArm by using uClient
+Go to following site and go `uArm Metal -> Download` then download `uClient`
+
+https://www.ufactory.cc/en/uarm_metal/
+
+Power on uArm and connect uArm to PC via USB cable.
+Then execute following command:
+
+```sh
+$ sudo chmod 666 /dev/ttyUSB0
+```
+
+Launch `uClient` and test uArm.
+
+### Setup UArmForROS
+Execute following commands:
+```sh
+$ cd ~/catkin_ws/indigo/src
+$ git clone UArmForROS https://github.com/karaage0703/UArmForROS
+$ cd ..
+$ catkin_make
+$ source ~/.bashrc
+```
+
+### Test UArmForROS
+Power on uArm and connect uArm to PC via USB cable.
+Then execute following commands:
+```sh
+$ sudo chmod 666 /dev/ttyUSB0
+$ roscore
+$ rosrun uarm uarm_core.py connect
+```
+Input `e` for entering monitor mode
+
+Execute following command:
+``` 
+$ rostopic pub -1 /move_to uarm/Coords -- '12' '-12' '12'
+```
+
+
+
 ## 1.Installation
 ---
 ### 1.1 Pre-Requirements
