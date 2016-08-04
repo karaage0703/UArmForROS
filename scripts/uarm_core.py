@@ -35,7 +35,7 @@ from uarm.msg import CoordsWithTS4
 
 # Read current Coords function
 def readCurrentCoords():
-	cc = uarm.read_coords(1)
+	cc = uarm.read_coordinate()
 	print cc
 	print 'Current location is x: %2.2fcm, y: %2.2fcm, z: %2.2fcm.' %(cc[0],-1*float(cc[1]),-1*float(cc[2]))
 
@@ -257,7 +257,7 @@ def controlFcn():
 					if y>0:
 						y = -y
 					z = float(commands_split[3])
-					uarm.move_to_options(x,y,z,0,0,2,0,0)
+					uarm.move_to(x,y,z,0,0,2,0,0)
 
 				elif len(commands_split) == 5:
 					x = float(commands_split[1])
@@ -266,7 +266,7 @@ def controlFcn():
 						y = -y
 					z = float(commands_split[3])
 					time = int(commands_split[4])
-					uarm.move_to_options(x, y, z, 0, 0, time, 0, 0)
+					uarm.move_to(x, y, z, 0, 0, time, 0, 0)
 
 					pass
 
@@ -280,7 +280,7 @@ def controlFcn():
 					servo_4 = int(commands_split[4])
 					if servo_4 > 180: servo_4 = 180
 					if servo_4 <0 : servo_4 =0
-					uarm.move_to_options(x, y, z, servo_4, 0, time, 0, 0)
+					uarm.move_to(x, y, z, servo_4, 0, time, 0, 0)
 					pass
 
 				else:
@@ -360,7 +360,7 @@ def moveToCallback(coords):
 	if y>0:
 		y = -y
 	z = coords.z
-	uarm.move_to_options(x, y, z, 0, 0, 2, 0, 0)
+	uarm.move_to(x, y, z, 0, 0, 2, 0, 0)
 	print 'Movement: Moved Once' 
 
 
@@ -373,9 +373,9 @@ def moveToTimeCallback(coordsAndT):
 	z = coordsAndT.z
 	time = coordsAndT.time
 	if time == 0:
-		uarm.move_to_options(x, y, z, 0, 0, 0, 0, 0)
+		uarm.move_to(x, y, z, 0, 0, 0, 0, 0)
 	else:
-		uarm.move_to_options(x, y, z, 0, 0, time, 0, 0)
+		uarm.move_to(x, y, z, 0, 0, time, 0, 0)
 
 	print 'Movement: Moved Once' 
 	pass
@@ -393,7 +393,7 @@ def moveToTimeAndS4Callback(coordsAndTS4):
 	s4 = coordsAndTS4.servo_4
 	if s4 > 180: s4 = 180
 	if s4 <0 : s4 =0
-	uarm.move_to_options(x, y, z, s4, 0, time, 0, 0)
+	uarm.move_to(x, y, z, s4, 0, time, 0, 0)
 	print 'Movement: Moved Once' 
 	pass
 
